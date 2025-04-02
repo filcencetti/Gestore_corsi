@@ -1,45 +1,53 @@
 import flet as ft
 
-
 class View(ft.UserControl):
     def __init__(self, page: ft.Page):
         super().__init__()
         # page stuff
         self._page = page
-        self._page.title = "Template application using MVC and DAO"
+        self._page.title = "Gestore Corsi edizione 2025"
         self._page.horizontal_alignment = 'CENTER'
-        self._page.theme_mode = ft.ThemeMode.DARK
+        self._page.theme_mode = ft.ThemeMode.LIGHT
         # controller (it is not initialized. Must be initialized in the main, after the controller is created)
         self._controller = None
         # graphical elements
-        self._title = None
-        self.txt_name = None
-        self.btn_hello = None
-        self.txt_result = None
-        self.txt_container = None
+
+        self.dd_PD = None
+        self.dd_Codins = None
+        self.btn_PrintCoursesPD = None
+        self.btn_Print_RegisteredCoursesPD = None
+        self.btn_Print_RegisteredCoursesPD = None
+        self.btn_Print_CDSCodins = None
+        self.lvTxtOut = None
 
     def load_interface(self):
-        # title
-        self._title = ft.Text("Hello World", color="blue", size=24)
-        self._page.controls.append(self._title)
 
-        #ROW with some controls
-        # text field for the name
-        self.txt_name = ft.TextField(
-            label="name",
-            width=200,
-            hint_text="Insert a your name"
-        )
+        self.dd_PD = ft.Dropdown(label="Periodo Didattico",
+                                 options=[ft.dropdown.Option("I"),
+                                          ft.dropdown.Option("II")],
+                                 width=300)
 
-        # button for the "hello" reply
-        self.btn_hello = ft.ElevatedButton(text="Hello", on_click=self._controller.handle_hello)
-        row1 = ft.Row([self.txt_name, self.btn_hello],
-                      alignment=ft.MainAxisAlignment.CENTER)
-        self._page.controls.append(row1)
+        self.dd_Codins = ft.Dropdown(label="Corso",width=300,on_change=self._controller.ddCodinsSelected)
+        self._controller.fillddCodins()
 
-        # List View where the reply is printed
-        self.txt_result = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=True)
-        self._page.controls.append(self.txt_result)
+        self.btn_PrintCoursesPD = ft.ElevatedButton(text="Stampa corsi",
+                                                    on_click=self._controller.handlePrintCoursesPD,
+                                                    width=300)
+        self.btn_Print_RegisteredCoursesPD = ft.ElevatedButton(text="Stampa numero iscritti",
+                                                    on_click=self._controller.handlePrintRegisteredCoursesPD,
+                                                    width=300)
+        self.btn_Print_RegisteredCoursesPD = ft.ElevatedButton(text="Stampa iscritti al corso",
+                                                    on_click=self._controller.handlePrintRegisteredCodins,
+                                                    width=300)
+        self.btn_Print_CDSCodins = ft.ElevatedButton(text="Stampa corsi",
+                                                    on_click=self._controller.handlePrintCDSCodins,
+                                                    width=300)
+        self.lvTxtOut = ft.ListView(expand=True)
+
+
+        row1 = ft.Row([self.dd_PD, self.btn_PrintCoursesPD, self.btn_Print_RegisteredCoursesPD,])
+        row2 = ft.Row([self.dd_Codins, self.btn_Print_RegisteredCoursesPD,self.btn_Print_CDSCodins,])
+        self._page.add(ft.Text(self._page.title),row1,row2,self.lvTxtOut)
         self._page.update()
 
     @property
