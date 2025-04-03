@@ -36,10 +36,27 @@ class Controller:
             self._view.lvTxtOut.controls.append(ft.Text(c))
         self._view.update_page()
 
-    def handlePrintRegisteredCoursesPD(self):
-        pass
+    def handlePrintRegisteredCoursesPD(self,e):
+        self._view.lvTxtOut.controls.clear()
+        pd = self._view.dd_PD.value
+        if pd is None:
+            self._view.create_alert("Seleziona il periodo didattico!")
+            self._view.update_page()
+            return
 
-    def handlePrintRegisteredCodins(self):
+        if pd == "I":
+            pdInt = 1
+        else:
+            pdInt = 2
+
+        coursesPDwR = self._model.getcoursespdwithregisterd(pdInt)
+
+        self._view.lvTxtOut.controls.append(ft.Text(f"Dettagli corsi del {pd} periodo didattico"))
+        for c in coursesPDwR:
+            self._view.lvTxtOut.controls.append(ft.Text(f"{c[0]} - N iscritti {c[1]}"))
+        self._view.update_page()
+
+    def handlePrintRegisteredCodins(self,e):
         pass
 
     def handlePrintCDSCodins(self):

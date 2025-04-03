@@ -66,6 +66,29 @@ class DAO():
         cnx.close()
         return res
 
+    @staticmethod
+    def gestcoursesPDwithRegistered(pd):
+        cnx = DBConnect.get_connection()
+        cursor = cnx.cursor(dictionary=True)
+
+        query = """SELECT c.codins, c.crediti, c.nome, c.pd, count(*) as n
+                    from corso c, iscrizione i
+                    where c.codins = i.codins
+                    and c.pd = %s
+                    group by c.codins, c.crediti, c.nome, c.pd"""
+
+        cursor.execute(query, (pd,))
+
+        res = []
+        for row in cursor:
+            res.append(
+                (Course(row["codins"],row["crediti"],row["nome"],row["pd"]),row["n"])
+            )
+
+        cursor.close()
+        cnx.close()
+        return res
+
 if __name__ == '__main__':
-        for c in DAO.getAllCourses():
-            print(c)
+     for c in DAO.gestcoursesPDwithRegistered(1):
+         print(c)

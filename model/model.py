@@ -14,3 +14,6 @@ class Model:
 
     def getCoursesPD(selfself,pd):
         return DAO.getCoursePD(pd)
+
+    def getcoursespdwithregisterd(self,pd):
+        return DAO.gestcoursesPDwithRegistered(pd)

@@ -36,7 +36,7 @@ class View(ft.UserControl):
         self.btn_Print_RegisteredCoursesPD = ft.ElevatedButton(text="Stampa numero iscritti",
                                                     on_click=self._controller.handlePrintRegisteredCoursesPD,
                                                     width=300)
-        self.btn_Print_RegisteredCoursesPD = ft.ElevatedButton(text="Stampa iscritti al corso",
+        self.btn_Print_RegisteredCodins = ft.ElevatedButton(text="Stampa iscritti al corso",
                                                     on_click=self._controller.handlePrintRegisteredCodins,
                                                     width=300)
         self.btn_Print_CDSCodins = ft.ElevatedButton(text="Stampa corsi",
@@ -46,7 +46,7 @@ class View(ft.UserControl):
 
 
         row1 = ft.Row([self.dd_PD, self.btn_PrintCoursesPD, self.btn_Print_RegisteredCoursesPD,])
-        row2 = ft.Row([self.dd_Codins, self.btn_Print_RegisteredCoursesPD,self.btn_Print_CDSCodins,])
+        row2 = ft.Row([self.dd_Codins, self.btn_Print_RegisteredCodins,self.btn_Print_CDSCodins,])
         self._page.add(ft.Text(self._page.title),row1,row2,self.lvTxtOut)
         self._page.update()
 
