@@ -1,6 +1,6 @@
 from database.DB_connect import DBConnect
 from model.corso import Course
-
+from model.studente import Student
 
 class DAO():
 
@@ -84,6 +84,46 @@ class DAO():
             res.append(
                 (Course(row["codins"],row["crediti"],row["nome"],row["pd"]),row["n"])
             )
+
+        cursor.close()
+        cnx.close()
+        return res
+
+    @staticmethod
+    def getStudentsCourse(codins):
+        cnx = DBConnect.get_connection()
+        cursor = cnx.cursor(dictionary=True)
+
+        query = """SELECT s.*
+                    from studente s, iscrizione i
+                    where s.matricola = i.matricola
+                    and i.codins = %s """
+
+        cursor.execute(query, (codins,))
+        res = []
+        for row in cursor:
+            res.append(Student(**row)) # = res.append(Studente(row["matricola"], row["cognome"], row["nome"], row["CDS"])
+
+        cursor.close()
+        cnx.close()
+        return res
+
+    @staticmethod
+    def getCDSofCourse(codins):
+        cnx = DBConnect.get_connection()
+        cursor = cnx.cursor(dictionary=True)
+
+        query = """SELECT s.CDS, count(*) as n
+                    from studente s, iscrizione i
+                    where s.matricola = i.matricola
+                    and s.CDS != ""
+                    and i.codins = %s
+                    group by s.CDS"""
+
+        cursor.execute(query, (codins,))
+        res = []
+        for row in cursor:
+            res.append((row["CDS"],row["n"]))
 
         cursor.close()
         cnx.close()

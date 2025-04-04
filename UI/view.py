@@ -45,8 +45,8 @@ class View(ft.UserControl):
         self.lvTxtOut = ft.ListView(expand=True)
 
 
-        row1 = ft.Row([self.dd_PD, self.btn_PrintCoursesPD, self.btn_Print_RegisteredCoursesPD,])
-        row2 = ft.Row([self.dd_Codins, self.btn_Print_RegisteredCodins,self.btn_Print_CDSCodins,])
+        row1 = ft.Row([self.dd_PD, self.btn_PrintCoursesPD, self.btn_Print_RegisteredCoursesPD,],alignment=ft.MainAxisAlignment.CENTER)
+        row2 = ft.Row([self.dd_Codins, self.btn_Print_RegisteredCodins,self.btn_Print_CDSCodins,],alignment=ft.MainAxisAlignment.CENTER)
         self._page.add(ft.Text(self._page.title),row1,row2,self.lvTxtOut)
         self._page.update()
 
